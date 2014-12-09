@@ -517,7 +517,7 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
         templateUrl: 'ngTagsInput/auto-complete.html',
         link: function(scope, element, attrs, tagsInputCtrl) {
             var hotkeys = [KEYS.enter, KEYS.tab, KEYS.escape, KEYS.up, KEYS.down],
-                suggestionList, tagsInput, options, getItem, getDisplayText, shouldLoadSuggestions, getProfileName;
+                suggestionList, tagsInput, options, getItem, getDisplayText, shouldLoadSuggestions, getProfileName, getProfileEmail;
 
             tagsInputConfig.load('autoComplete', scope, attrs, {
                 debounceDelay: [Number, 100],
@@ -543,6 +543,11 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
             getDisplayText = function(item) {
                 return safeToString(getItem(item));
             };
+
+            getProfileEmail= function(item) {
+                return safeToString(item.email);
+            };
+
 
             getProfileName = function(item) {
                 if (item.name && item.name!==""){
@@ -575,7 +580,10 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
             };
 
             scope.highlight = function(item) {
-                var text = getDisplayText(item);
+                var text = getProfileEmail(item);
+                if (item.name){
+                    text = getProfileName(item) + " <" + getProfileEmail(item) + ">";
+                }
                 //text = encodeHTML(text);
                 if (options.highlightMatchedText) {
                     text = replaceAll(text, encodeHTML(suggestionList.query), '<em>$&</em>');
@@ -583,10 +591,6 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
 
                 if (item.userpic && item.userpic!==""){
                     text = '<img src="' + item.userpic + '" class="search-pic">' + text;
-                }
-
-                if (getProfileName){
-                    text = text + " (" + getProfileName(item) + ")";
                 }
 
                 return $sce.trustAsHtml(text);
