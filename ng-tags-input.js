@@ -517,7 +517,7 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
         templateUrl: 'ngTagsInput/auto-complete.html',
         link: function(scope, element, attrs, tagsInputCtrl) {
             var hotkeys = [KEYS.enter, KEYS.tab, KEYS.escape, KEYS.up, KEYS.down],
-                suggestionList, tagsInput, options, getItem, getDisplayText, shouldLoadSuggestions;
+                suggestionList, tagsInput, options, getItem, getDisplayText, shouldLoadSuggestions, getProfileName;
 
             tagsInputConfig.load('autoComplete', scope, attrs, {
                 debounceDelay: [Number, 100],
@@ -542,6 +542,12 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
 
             getDisplayText = function(item) {
                 return safeToString(getItem(item));
+            };
+
+            getProfileName = function(item) {
+                if (item.name && item.name!==""){
+                    return safeToString(item.name);    
+                }
             };
 
             shouldLoadSuggestions = function(value) {
@@ -570,10 +576,19 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
 
             scope.highlight = function(item) {
                 var text = getDisplayText(item);
-                text = encodeHTML(text);
+                //text = encodeHTML(text);
                 if (options.highlightMatchedText) {
                     text = replaceAll(text, encodeHTML(suggestionList.query), '<em>$&</em>');
                 }
+
+                if (item.userpic && item.userpic!==""){
+                    text = '<img src="' + item.userpic + '" class="search-pic">' + text;
+                }
+
+                if (getProfileName){
+                    text = text + " (" + getProfileName(item) + ")";
+                }
+
                 return $sce.trustAsHtml(text);
             };
 
@@ -860,7 +875,7 @@ tagsInput.run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put('ngTagsInput/auto-complete.html',
-    "<div class=\"autocomplete\" ng-show=\"suggestionList.visible\"><ul class=\"suggestion-list\"><li class=\"suggestion-item\" ng-repeat=\"item in suggestionList.items track by track(item)\" ng-class=\"{selected: item == suggestionList.selected}\" ng-click=\"addSuggestionByIndex($index)\" ng-mouseenter=\"suggestionList.select($index)\" ng-bind-html=\"highlight(item)\"></li></ul></div>"
+    "<div class=\"autocomplete\" ng-show=\"suggestionList.visible\"><ul class=\"suggestion-list\"><li class=\"suggestion-item\" ng-repeat=\"item in suggestionList.items track by track(item)\" test-pic=\"{{item.userpic}}\" ng-class=\"{selected: item == suggestionList.selected}\" ng-click=\"addSuggestionByIndex($index)\" ng-mouseenter=\"suggestionList.select($index)\" ng-bind-html=\"highlight(item)\"></li></ul></div>"
   );
 }]);
 
