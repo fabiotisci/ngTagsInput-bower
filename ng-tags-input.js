@@ -580,21 +580,62 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
             };
 
             scope.highlight = function(item) {
-                var text = getProfileEmail(item);
-                if (item.name){
-                    text = getProfileName(item) + " <" + getProfileEmail(item) + ">";
-                }
-                //text = encodeHTML(text);
-                if (options.highlightMatchedText) {
-                    text = replaceAll(text, encodeHTML(suggestionList.query), '<em>$&</em>');
+                if (item.userpic){
+                    return '<div class="header-user-container">' +
+                            '  <div class="header-user">' +
+                            '    <img src="' + item.userpic + '"/>' +
+                            '    <div class= "header-user-content">' +
+                            '      <div>' +
+                            '        <span class="header-user-name">' + item.name + '</span>' +
+                            '      </div>' +
+                            '      <div class="header-user-status">' +
+                            '        <span>' + item.email + '</span>' +
+                            '      </div>' +
+                            '    </div>' +
+                            '  </div>' +
+                            '</div>';
+                }else if(!item.userpic && item.name){
+                    return '<div class="header-user-container">' +
+                            '  <div class="header-user">' +
+                            '    <div class= "header-user-content">' +
+                            '      <div>' +
+                            '        <span class="header-user-name">' + item.name + '</span>' +
+                            '      </div>' +
+                            '      <div class="header-user-status">' +
+                            '        <span>' + item.email + '</span>' +
+                            '      </div>' +
+                            '    </div>' +
+                            '  </div>' +
+                            '</div>';
+                }else{
+                    return '<div class="header-user-container">' +
+                            '  <div class="header-user">' +
+                            '    <div class= "header-user-content">' +
+                            '      <div>' +
+                            '        <span class="header-user-name">' + item.name + '</span>' +
+                            '      </div>' +
+                            '    </div>' +
+                            '  </div>' +
+                            '</div>';
                 }
 
-                if (item.userpic && item.userpic!==""){
-                    text = '<img src="' + item.userpic + '" class="search-pic">' + text;
-                }
+                // var text = getProfileEmail(item);
+                // if (item.name){
+                //     text = getProfileName(item) + ' &lt;' + getProfileEmail(item) + '&gt;';
+                // }
+                // //text = encodeHTML(text);
+                // if (options.highlightMatchedText) {
+                //     text = replaceAll(text, encodeHTML(suggestionList.query), '<em>$&</em>');
+                // }
 
-                return $sce.trustAsHtml(text);
+                // if (item.userpic && item.userpic!==""){
+                //     text = '<img src="' + item.userpic + '" class="search-pic">' + text;
+                // }
+
+                // return $sce.trustAsHtml(text);
             };
+
+
 
             scope.track = function(item) {
                 return getItem(item);
