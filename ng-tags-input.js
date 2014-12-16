@@ -597,6 +597,7 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
                 }else if(!item.userpic && item.name){
                     return '<div class="header-user-container">' +
                             '  <div class="header-user">' +
+                            '    <img src="/assets/images/individual.png"/>' +                            
                             '    <div class= "header-user-content">' +
                             '      <div>' +
                             '        <span class="header-user-name">' + item.name + '</span>' +
@@ -610,9 +611,10 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
                 }else{
                     return '<div class="header-user-container">' +
                             '  <div class="header-user">' +
+                            '    <img src="/assets/images/individual.png"/>' +                                                        
                             '    <div class= "header-user-content">' +
                             '      <div>' +
-                            '        <span class="header-user-name">' + item.name + '</span>' +
+                            '        <span class="header-user-name">' + item.email + '</span>' +
                             '      </div>' +
                             '    </div>' +
                             '  </div>' +
