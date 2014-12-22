@@ -580,13 +580,20 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
             };
 
             scope.highlight = function(item) {
-                if (item.userpic){
-                    return '<div class="header-user-container">' +
+                var template = "";
+                var online = "";
+
+                if (item.online){
+                    online = " (online)";
+                }
+
+                if (item.userpic && item.name){
+                    template = '<div class="header-user-container">' +
                             '  <div class="header-user">' +
                             '    <img src="' + item.userpic + '"/>' +
                             '    <div class= "header-user-content">' +
-                            '      <div>' +
-                            '        <span class="header-user-name">' + item.name + '</span>' +
+                            '      <div>' + 
+                            '        <span class="header-user-name">' + item.name + online + '</span>' +
                             '      </div>' +
                             '      <div class="header-user-status">' +
                             '        <span>' + item.email + '</span>' +
@@ -595,12 +602,12 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
                             '  </div>' +
                             '</div>';
                 }else if(!item.userpic && item.name){
-                    return '<div class="header-user-container">' +
+                    template = '<div class="header-user-container">' +
                             '  <div class="header-user">' +
                             '    <img src="/assets/images/individual.png"/>' +                            
                             '    <div class= "header-user-content">' +
                             '      <div>' +
-                            '        <span class="header-user-name">' + item.name + '</span>' +
+                            '        <span class="header-user-name">' + item.name +  online + '</span>' +
                             '      </div>' +
                             '      <div class="header-user-status">' +
                             '        <span>' + item.email + '</span>' +
@@ -608,8 +615,19 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
                             '    </div>' +
                             '  </div>' +
                             '</div>';
+                }else if(item.userpic && !item.name){
+                    template = '<div class="header-user-container">' +
+                            '  <div class="header-user">' +
+                            '    <img src="/assets/images/individual.png"/>' +                            
+                            '    <div class= "header-user-content">' +
+                            '      <div>' +
+                            '        <span class="header-user-name">' + item.email + online + '</span>' +
+                            '      </div>' +
+                            '    </div>' +
+                            '  </div>' +
+                            '</div>';
                 }else{
-                    return '<div class="header-user-container">' +
+                    template = '<div class="header-user-container">' +
                             '  <div class="header-user">' +
                             '    <img src="/assets/images/individual.png"/>' +                                                        
                             '    <div class= "header-user-content">' +
@@ -620,6 +638,8 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
                             '  </div>' +
                             '</div>';
                 }
+
+                return template;
 
                 // var text = getProfileEmail(item);
                 // if (item.name){
