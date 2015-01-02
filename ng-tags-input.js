@@ -618,7 +618,7 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
                 }else if(item.userpic && !item.name){
                     template = '<div class="header-user-container">' +
                             '  <div class="header-user">' +
-                            '    <img src="/assets/images/individual.png"/>' +                            
+                            '    <img src="' + item.userpic + '"/>' +
                             '    <div class= "header-user-content">' +
                             '      <div>' +
                             '        <span class="header-user-name">' + item.email + online + '</span>' +
@@ -632,7 +632,7 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
                             '    <img src="/assets/images/individual.png"/>' +                                                        
                             '    <div class= "header-user-content">' +
                             '      <div>' +
-                            '        <span class="header-user-name">' + item.email + '</span>' +
+                            '        <span class="header-user-name">' + item.email + online + '</span>' +
                             '      </div>' +
                             '    </div>' +
                             '  </div>' +
