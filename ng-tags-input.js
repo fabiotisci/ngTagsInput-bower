@@ -580,84 +580,21 @@ tagsInput.directive('autoComplete', ["$document","$timeout","$sce","tagsInputCon
             };
 
             scope.highlight = function(item) {
-                var template = "";
-                var online = "";
-
-                if (item.online){
-                    online = " (online)";
-                }
-
-                if (item.userpic && item.name){
-                    template = '<div class="header-user-container">' +
+                var template = '<div class="header-user-container">' +
                             '  <div class="header-user">' +
-                            '    <img src="' + item.userpic + '"/>' +
                             '    <div class= "header-user-content">' +
                             '      <div>' + 
-                            '        <span class="header-user-name">' + item.name + online + '</span>' +
+                            '        <span class="header-user-name">' + item.name +'</span>' +
                             '      </div>' +
                             '      <div class="header-user-status">' +
-                            '        <span>' + item.email + '</span>' +
+                            '        <span>' + item.owner + '</span>' +
                             '      </div>' +
                             '    </div>' +
                             '  </div>' +
                             '</div>';
-                }else if(!item.userpic && item.name){
-                    template = '<div class="header-user-container">' +
-                            '  <div class="header-user">' +
-                            '    <img src="/assets/images/individual.png"/>' +                            
-                            '    <div class= "header-user-content">' +
-                            '      <div>' +
-                            '        <span class="header-user-name">' + item.name +  online + '</span>' +
-                            '      </div>' +
-                            '      <div class="header-user-status">' +
-                            '        <span>' + item.email + '</span>' +
-                            '      </div>' +
-                            '    </div>' +
-                            '  </div>' +
-                            '</div>';
-                }else if(item.userpic && !item.name){
-                    template = '<div class="header-user-container">' +
-                            '  <div class="header-user">' +
-                            '    <img src="' + item.userpic + '"/>' +
-                            '    <div class= "header-user-content">' +
-                            '      <div>' +
-                            '        <span class="header-user-name">' + item.email + online + '</span>' +
-                            '      </div>' +
-                            '    </div>' +
-                            '  </div>' +
-                            '</div>';
-                }else{
-                    template = '<div class="header-user-container">' +
-                            '  <div class="header-user">' +
-                            '    <img src="/assets/images/individual.png"/>' +                                                        
-                            '    <div class= "header-user-content">' +
-                            '      <div>' +
-                            '        <span class="header-user-name">' + item.email + online + '</span>' +
-                            '      </div>' +
-                            '    </div>' +
-                            '  </div>' +
-                            '</div>';
-                }
 
                 return template;
-
-                // var text = getProfileEmail(item);
-                // if (item.name){
-                //     text = getProfileName(item) + ' &lt;' + getProfileEmail(item) + '&gt;';
-                // }
-                // //text = encodeHTML(text);
-                // if (options.highlightMatchedText) {
-                //     text = replaceAll(text, encodeHTML(suggestionList.query), '<em>$&</em>');
-                // }
-
-                // if (item.userpic && item.userpic!==""){
-                //     text = '<img src="' + item.userpic + '" class="search-pic">' + text;
-                // }
-
-                // return $sce.trustAsHtml(text);
             };
-
-
 
             scope.track = function(item) {
                 return getItem(item);
